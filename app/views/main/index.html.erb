@@ -1,0 +1,262 @@
+<style>
+  body{
+  background-color:#e0ffff;
+}
+
+/* 日本地図 */
+#map1 {
+	width: 600px;
+	height: 600px;
+}
+/* 画像横スクロール */
+#scroll{
+  position:relative;
+  overflow:hidden;
+  width:600px;
+  height:200px;
+}
+#scroll div{
+  position:absolute;
+  width:600px;
+  height:200px;
+}
+table{
+  border:solid 3px orangered;
+}
+.over1{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,0.6);
+}
+.over2{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background-color:#7fffd4;
+}
+.upload_title{
+  background:linear-gradient(transparent 70%, #ff1493 0%);
+}
+.top{
+  position:relative;
+}
+.uptop{
+  position:absolute;
+  top:0;
+  right:0;
+  cursor:pointer;
+}
+.uptop:hover{
+  color:#c71585;
+  text-decoration:none;
+}
+#preview img {
+	width:100px;
+  height:50px;
+	border:1px solid black;
+}
+.map1{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,0.6);
+}
+.map2{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background-color:#e6e6fa
+}
+</style>
+
+<!-- タイトル -->
+<div class="top">
+<h1>どこへ旅に行きますか？</h1>
+<h2>気になる場所をタップ！</h2>
+  <div class="uptop" onclick="upopen()">
+  画像のアップロード<img src="https://school.oohara.jp/komatsu/TripAlone/icon/i_upfile.png">
+  </div>
+</div>
+
+<div id="map1"></div>
+<!-- 画像横スクロール -->
+<div id="scroll"></div>
+<!-- アップロード画面 -->
+<%= form_tag({:action=>:upload},{:multipart=>true}) do |f| %>
+<div id="over0"><table>
+  <div class="over1" onclick="upclose()"></div>
+  <div class="over2"><div class="upload_title">
+    旅の思い出を記録しよう</div><br>
+    <div>■旅してきた場所は？
+      <select id="japan" name="japan">
+        <option value="北海道">北海道</option>
+        <option value="青森県">青森県</option>
+        <option value="岩手県">岩手県</option>
+        <option value="秋田県">秋田県</option>
+        <option value="宮城県">宮城県</option>
+        <option value="秋田県">秋田県</option>
+        <option value="山形県">山形県</option>
+        <option value="福島県">福島県</option>
+        <option value="茨城県">茨城県</option>
+        <option value="栃木県">栃木県</option>
+        <option value="群馬県">群馬県</option>
+        <option value="埼玉県">埼玉県</option>
+        <option value="千葉県">千葉県</option>
+        <option value="東京都">東京都</option>
+        <option value="神奈川県">神奈川県</option>
+        <option value="新潟県">新潟県</option>
+        <option value="富山県">富山県</option>
+        <option value="石川県">石川県</option>
+        <option value="福井県">福井県</option>
+        <option value="山梨県">山梨県</option>
+        <option value="長野県">長野県</option>
+        <option value="岐阜県">岐阜県</option>
+        <option value="静岡県">静岡県</option>
+        <option value="愛知県">愛知県</option>
+        <option value="三重県">三重県</option>
+        <option value="滋賀県">滋賀県</option>
+        <option value="京都府">京都府</option>
+        <option value="大阪府">大阪府</option>
+        <option value="兵庫県">兵庫県</option>
+        <option value="奈良県">奈良県</option>
+        <option value="和歌山県">和歌山県</option>
+        <option value="鳥取県">鳥取県</option>
+        <option value="島根県">島根県</option>
+        <option value="岡山県">岡山県</option>
+        <option value="広島県">広島県</option>
+        <option value="山口県">山口県</option>
+        <option value="徳島県">徳島県</option>
+        <option value="香川県">香川県</option>
+        <option value="愛媛県">愛媛県</option>
+        <option value="高知県">高知県</option>
+        <option value="福岡県">福岡県</option>
+        <option value="佐賀県">佐賀県</option>
+        <option value="長崎県">長崎県</option>
+        <option value="熊本県">熊本県</option>
+        <option value="大分県">大分県</option>
+        <option value="宮崎県">宮崎県</option>
+        <option value="鹿児島県">鹿児島県</option>
+        <option value="沖縄県">沖縄県</option>
+
+      </select><br>
+      ■画像<br>
+      最大５枚までアップロードできます
+      <input type="file" id="file" name="image[]" multiple="multiple"><Br>
+      <p id="preview"></p>
+      <br>
+      <input type="submit" value="送信">
+    </div>
+    </div></table>
+</div>
+<% end %>
+<!--地図のオーバーレイ-->
+  <div id="map0">
+  <div class="map1" onclick="mapclose()"></div>
+  <div class="map2">
+    <div id="location"></div>
+    <div>
+      <img src="https://school.oohara.jp/komatsu/TripAlone/icon/i_image.png" id="img" width="100">
+      <img src="https://school.oohara.jp/komatsu/TripAlone/icon/i_image.png" id="img" width="100">
+      <img src="https://school.oohara.jp/komatsu/TripAlone/icon/i_image.png" id="img" width="100">
+      <img src="https://school.oohara.jp/komatsu/TripAlone/icon/i_image.png" id="img" width="100">
+    </div>
+  </div>
+</div>
+
+<script>
+  // 日本地図
+  $(function(){
+  $('#map1').vectorMap({
+    map: 'japan_ja',
+    onRegionClick: function(element, code, region){
+    $("#location").html(region);
+    mapopen();
+    }
+  });
+    var gaX=[
+    ["https://school.oohara.jp/komatsu/TripAlone/TOP/gunkanisland.jpg",""],
+   ["https://school.oohara.jp/komatsu/TripAlone/TOP/jyougakurabigbridge.jpg",""],["https://school.oohara.jp/komatsu/TripAlone/TOP/yoronisland.jpg",""]];
+
+    var i = 0;
+    var html = "";
+    for(i=0;i<gaX.length;i++){
+      html += `
+       <span class="slidespan">
+  <div name="slide" class="photo" style="background-image:url(${gaX[i][0]});width:600px;height:200px;background-size:600px 200px;">
+  </div>
+  </span>
+  `;
+    }
+
+  // 横スクロール用画像
+  $("#scroll").html(html);
+
+  $("div[name=slide]").css("display","none");
+  $("div[name=slide]").eq(0).css("display","");
+  });
+
+
+  var timer = setTimeout("yoko()",3000);
+  var timer2;
+  var xx= 0;
+  var slideno=0;
+  var flg = 0;
+  function yoko(){ //3秒間隔
+    timer2=setInterval("yoko2()",1);
+  }
+
+  function yoko2(){ //横スクロール
+    flg=1;
+    xx--;
+    if(xx==-600){//終了処理
+         clearInterval(timer2);
+      flg=0;
+      var list = $(".slidespan");
+      var hh = list.eq(0).html();
+      list.eq(0).remove();
+      $("<span class=slidespan>"+hh+"</span>").appendTo("#scroll");
+      xx=0;
+      $("div[name=slide]").eq(0).css("left","0px");
+      timer = setTimeout("yoko()",3000);
+    }
+    //横移動
+    $("div[name=slide]").eq(0).css("left",xx+"px");
+    $("div[name=slide]").eq(1).css("left",600+xx+"px");
+   $("div[name=slide]").eq(1).css("display","");
+    }
+
+  $("#over0").css("display","none");
+  //オーバーレイ画面を開く
+  function upopen(){
+    $("#over0").css("display","");
+  }
+  //オーバーレイ画面を閉じる
+  function upclose(){
+    $("#over0").css("display","none");
+  }
+
+  	// ファイルリーダー作成
+   $('#file').on('change', function (e) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+          $("#img").attr('src', e.target.result);
+      }
+      reader.readAsDataURL(e.target.files[0]);
+  });
+  $("#map0").css("display","none");
+  //オーバーレイ画面を開く
+  function mapopen(){
+    $("#map0").css("display","");
+  }
+  //オーバーレイ画面を閉じる
+  function mapclose(){
+    $("#map0").css("display","none");
+  }
+</script>

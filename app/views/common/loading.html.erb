@@ -1,0 +1,32 @@
+<style media="screen">
+  .loading {
+  position:fixed;
+  z-index:301;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+background:url(https://school.oohara.jp/komatsu/TripAlone/icon/loading1.gif);
+background-size:100vw 100vh;
+display:none;
+  }
+  .loading_img {
+  width:100vw;
+  height:100vh;
+  }
+</style>
+<div id="loading" class="loading">
+</div>
+
+<script type="text/javascript">
+  $("a").click(function(){
+    $("#loading").css("display","inline");
+  　var loading = $("#loading");
+  　//ローディングエリアを隠す
+  　var isHidden = function(){
+  　　loading.fadeOut(3000); //3000ミリ秒かけてフェードアウト
+  　};
+  　//2000ミリ秒後にloadingFunc開始
+  　setTimeout(isHidden,2000);
+  });
+</script>

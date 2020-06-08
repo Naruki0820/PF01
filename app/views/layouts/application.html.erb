@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TripAlone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+  </head>
+
+  <body>
+    <%= render template: "common/header" %>
+    <%= yield %>
+    <%= render template: "common/loading" %>
+  </body>
+</html>

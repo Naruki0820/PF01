@@ -1,0 +1,188 @@
+<style>
+  body {
+    background-image:url(https://school.oohara.jp/komatsu/TripAlone/img_ch01.jpg);
+    background-size:cover;
+    background-attachment:fixed;
+  }
+  .contact-form{
+    padding-top:10px;
+    margin:0 auto;
+    width:400px;
+    color: #FFF;
+    background: rgba(0,0,0,.6);
+  }
+  .contact-form div{
+    margin-top:15px;
+  }
+  .contact-submit{
+    padding:center;
+    font-size:15px;
+    margin:0 auto;
+    width:60px;
+    background-color:#dee8ec;
+    color:#887eab;
+  }
+
+  .button-link{
+  	color:#00f;
+  	text-decoration:underline;
+  }
+
+  .button-link:hover{
+  	cursor:pointer;
+  	color:#f00;
+  }
+
+  .checker1{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.7);
+  }
+
+  .checker2{
+    position:fixed;
+    color: #FFF;
+    margin:2em 0;
+    background: rgba(0,0,0,.6);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    	width:50%;
+  	margin:1.5em auto 0;
+  	padding:10px 20px;
+  	border:2px solid #aaa;
+  	z-index:2;
+  }
+  .checker2 .boxtitle{
+    font-size:1.2em;
+    padding:4px;
+    text-align:center;
+    font-weight:bold;
+    letter-spacing:0.05em;
+  }
+
+
+  .contact-submit2{
+    font-size:15px;
+    width:60px;
+    background-color:#dee8ec;
+    color:#887eab;
+  }
+
+  #accept{
+  	width:50%;
+  	margin:1.5em auto 0;
+  	padding:10px 20px;
+  	border:2px solid #aaa;
+  	background:#00bfff;
+  	z-index:2;
+      position:fixed;
+    color: #FFF;
+    margin:2em 0;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+  }
+</style>
+<%= form_for(:r,:url=>{:action=>:create})%>
+<!-- 登録画面 -->
+<div class=contact-form><legend>登録内容</legend>
+  <table border><fieldset>
+    <p>ID名</p><input id="name" type="text" value="" name="id">
+    <p>登録用メールアドレス</p><input id="mail" type="text" value="" name="mail">
+    <p>Password</p><input id="pass" type="text" value="" name="pass">
+    <p>確認用Password</p><input id="RePW" type="text" value="">
+    <div><input class="contact-submit" type="button" value="次へ" onclick="window.check()"></div>
+    </table></fieldset>
+</div>
+
+
+<!-- 未記入箇所確認 -->
+<div id="modal-content">
+  <div id="checker">
+  <div class="checker1" onclick="window.close()"></div>
+  <div class="checker2">
+    <div class="box-title">こちらの内容でお間違い無いですか？</div>
+    <table border=1>
+      <tr><td>ID名</td>
+        <td><span id="id_checker"></span>
+      </td></tr>
+      <tr><td>登録用メールアドレス</td>
+      <td><span id="mail_checker"></span>
+      </td></tr>
+      <tr><td>Password</td>
+      <td><span id="pw_checker"></span>
+      </td></tr><tr>
+      <td>確認用Password</td>
+      <td><span id="repw_checker"></span>
+      </td></tr>
+      </table>
+    <input class="contact-submit2" type="submit" value="登録" >
+    <input class="contact-submit2" type="button-link" value="訂正する" onclick="window.close()">
+    </div>
+    </div>
+</div>
+
+<!-- 登録完了画面 -->
+<div id="modal-content2">
+    <div class="checker2" onclick="window.close2()"></div>
+<div id="accept">
+<table>
+  <p>登録完了しました</p>
+  <input type="button" value="閉じる" onclick="window.close2()">
+</table>
+</div>
+</div>
+<% end %>
+<script>
+  document.getElementById("modal-content").style.display="none";
+  document.getElementById("modal-content2").style.display="none";
+
+  function check(){
+    var name = document.getElementById("name").value;
+    if(name == ""){
+      alert("ID名が入力されていません");
+      return
+    }
+    var mail = document.getElementById("mail").value;
+    if(mail == ""){
+      alert("登録用メールアドレスが入力されていません");
+      return;
+    }
+    var pass =  document.getElementById("pass").value;
+    if(pass == ""){
+          alert("Passwordが入力されていません");
+      return
+    }
+    var RePW =  document.getElementById("RePW").value;
+    if(RePW == ""){
+          alert("確認用Passwordが入力されていません");
+      return
+    }
+
+    document.getElementById("id_checker").innerHTML=name;
+    document.getElementById("mail_checker").innerHTML=mail;
+    document.getElementById("pw_checker").innerHTML=pass;
+    document.getElementById("repw_checker").innerHTML=RePW;
+
+    document.getElementById("modal-content").style.display="";
+  }
+
+  function close(){
+    document.getElementById("modal-content").style.display="none";
+  }
+
+
+  function accept(){
+    document.getElementById("modal-content").style.display="none";
+    document.getElementById("modal-content2").style.display="";
+  }
+
+  function close2(){
+    document.getElementById("modal-content2").style.display="none";
+  }
+
+</script>

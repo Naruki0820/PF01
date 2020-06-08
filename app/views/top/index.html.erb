@@ -1,0 +1,148 @@
+<style>
+  body{
+    background:#40e0d0;
+    margin:0;
+  }
+  h1{
+    margin:0;
+  }
+  /* 横スクロール */
+  #head-scroll{
+    position:relative;
+    overflow:hidden;
+    width:800px;
+    height:300px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  #head-scroll div{
+    position:absolute;
+    width:800px;
+    height:300px;
+  }
+  /* 背景 */
+  #bgIMG0 {
+    position:relative;
+    width:100%;
+    height:calc(100vh - 300px);
+    padding:0;
+  }
+
+  #bgIMG{
+    position:absolute;
+      background-image:url(https://school.oohara.jp/komatsu/TripAlone/Hyogo/IMG_kobebridge.JPG);
+    background-size:100% 100%;
+    height:100%;
+    width:100vw;
+  }
+  #bgIMG div:first-child{
+  }
+  /* ログインhover */
+  .login{
+    float:right;
+    display:inline-block;
+    transition: all 0.3s ease 0s;
+    cursor:pointer;
+  }
+  .login:hover{
+    color:00bff;
+  }
+  /* 左バー */
+  #left-bar{
+    width:200px;
+    float:left;
+    line-height: 30px;
+    text-indent: 20px;
+    font-size: 12px;
+    height:calc(100vh - 400px);
+    border:1px solid red;
+  }
+
+  /* サイト紹介文配置 */
+  .text{
+    float:left;
+    text-align:left;
+    width:calc(100vw - 250px);
+    text-shadow:1px 1px 1px #fff,-1px -1px 1px #fff;
+  }
+</style>
+<!-- 横スクロール画像 -->
+<div id="head-scroll"></div>
+<div id="bgIMG0">
+<div id="bgIMG">
+  <div>
+<h1>Trip Alone</h1>
+
+<div id="left-bar">更新履歴
+ <ul class="new-page" id="new">
+   <li>2020/oo/××</li>
+   <li>2020/××/△△</li>
+   <li>2020/△△/□□</li>
+   </ul>
+</div>
+    <div>
+<a class="login" href="/login/index">ログインはこちら</a>
+      </div>
+<!-- サイト紹介 -->
+<div class="text">
+みなさん旅行はお好きですか？<br>
+  ここに行きたい！あの場所が以前から気になっている等々と日常のなかで気になっている場所は多いはず...<br>
+  気になったら1人だろうと旅に出られる方もいますが、ちょっと1人は不安というか行きにくいという方も...<br><br>
+  ここではそんな方へオススメな一人旅をご紹介します。
+
+  </div>
+</div>
+</div>
+</div>
+  <script type="text/javascript">
+    // ページトップの横スクロール
+var gaX=[
+  ["https://school.oohara.jp/komatsu/TripAlone/hiroshima01.jpg",""],
+["https://school.oohara.jp/komatsu/TripAlone/nagasaki01.jpg",""],["https://school.oohara.jp/komatsu/TripAlone/kyoto01.jpg",""]];
+
+  var i = 0;
+  var html = "";
+  for(i=0;i<gaX.length;i++){
+    html += `
+     <span class="slidespan">
+<div name="slide" class="photo" style="background-image:url(${gaX[i][0]});width:６00px;height:３00px;background-size:100% 100%;position:absolute">
+</div>
+</span>
+`;
+  }
+$("#head-scroll").html(html);
+
+$("div[name=slide]").css("display","none");
+$("div[name=slide]").eq(0).css("display","");
+;
+
+
+var timer = setTimeout("yoko()",3000);
+var timer2;
+var xx= 0;
+var slideno=0;
+var flg = 0;
+function yoko(){ //3秒間隔
+  timer2=setInterval("yoko2()",1);
+}
+
+function yoko2(){ //横スクロール
+  flg=1;
+  xx--;
+  if(xx==-800){//終了処理
+       clearInterval(timer2);
+    flg=0;
+    var list = $(".slidespan");
+    var hh = list.eq(0).html();
+    list.eq(0).remove();
+    $("<span class=slidespan>"+hh+"</span>").appendTo("#head-scroll");
+    xx=0;
+    $("div[name=slide]").eq(0).css("left","0px");
+    timer = setTimeout("yoko()",3000);
+  }
+  //横移動
+  $("div[name=slide]").eq(0).css("left",xx+"px");
+  $("div[name=slide]").eq(1).css("left",800+xx+"px");
+ $("div[name=slide]").eq(1).css("display","");
+  }
+  </script>
