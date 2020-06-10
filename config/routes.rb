@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resouces :microposts
+  resouces :users
   root 'users#index'
   get 'login/index'
   get 'main/index'
