@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'users#index'
   get 'login/index'
   get 'main/index'
   post 'main/upload'
