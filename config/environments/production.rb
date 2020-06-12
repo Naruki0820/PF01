@@ -29,6 +29,8 @@ Rails.application.configure do
   config.assets.compile = true
   config.serve_static_assets = true
   config.assets.digest = true
+  config.assets.initialize_on_precompile = false
+  
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
